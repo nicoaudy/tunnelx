@@ -22,6 +22,7 @@ bun run logout    # Logout
 ```
 
 ## Setup
+### Manual VPS Deployment
 1. Clone repo on VPS.
 2. Set up Nginx Proxy Manager on port 443 forwarding to internal port (e.g., 1001).
 3. Copy `.env.example` to `.env`: set DOMAIN=tunnel.yourdomain.com, SERVER_PORT=1001, EXTERNAL_PORT=443, USE_TLS=false.
@@ -29,6 +30,15 @@ bun run logout    # Logout
 5. Run `docker-compose up -d` to deploy server on internal port.
 6. Publish package to npm for `bunx tunnel <port>`.
 7. Users: Run `bunx tunnel login` to authenticate, then `bunx tunnel <port>` (connects to your domain).
+
+### Coolify Deployment
+1. Connect your Git repo to Coolify.
+2. Create a new service from the repo (Docker Compose).
+3. Set environment variables in Coolify: DOMAIN=tunnel.afk.my.id, SERVER_PORT=443, EXTERNAL_PORT=443, USE_TLS=true (or false if using Coolify's proxy), FREE_TIMEOUT_MINUTES=15, PREMIUM_TIMEOUT_MINUTES=60.
+4. Configure domains: Add tunnel.afk.my.id and *.tunnel.afk.my.id to point to your Coolify instance.
+5. Deploy – Coolify builds the Docker image and runs it.
+6. For TLS: Use Coolify's built-in certs or set USE_TLS=false and handle via Coolify's proxy.
+7. Publish client package to npm for users.
 
 ## Authentication
 - Run `bun run register` to create a new account (uses /tunnel-register paths).

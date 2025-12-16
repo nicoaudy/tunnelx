@@ -4,6 +4,13 @@ import { config } from '../shared/config.ts';
 const protocol = config.isLocal ? 'http' : 'https';
 const serverUrl = config.isLocal ? config.serverUrl.replace('wss', 'ws') : config.serverUrl;
 
+let authToken: string | null = null;
+try {
+  const authPath = `${Bun.env.HOME || '/tmp'}/.tunnel/auth.json`;
+  const authData = JSON.parse(await Bun.file(authPath).text());
+  authToken = authData.token;
+} catch {}
+
 if (config.isLocal) {
   const tunnelUrl = `${protocol}://${config.domain}:${config.serverPort}`;
   console.log(`Local tunnel URL: ${tunnelUrl}`);
@@ -14,9 +21,12 @@ if (config.isLocal) {
   console.log(`Connecting to ${serverUrl}`);
   const ws = new WebSocket(serverUrl);
 
-  ws.onopen = () => {
-    console.log('Connected to tunnel server');
-  };
+   ws.onopen = () => {
+     console.log('Connected to tunnel server');
+     if (authToken) {
+       ws.send(JSON.stringify({ type: 'auth', token: authToken }));
+     }
+   };
 
   ws.onmessage = async (event) => {
     console.log('Received message:', event.data);

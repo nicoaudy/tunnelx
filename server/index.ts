@@ -1,1 +1,1 @@
-import './tunnel-server.ts';
+import './main.ts';

@@ -15,7 +15,7 @@ const html = `
     <h1>Hello from Bun Tunnel Test!</h1>
     <p>This is a simple HTML page served by Bun.</p>
     <p>Timestamp: ${new Date().toISOString()}</p>
-    <p><a href="/json">JSON API</a> | <a href="/stream">Streaming</a> | <a href="/delay">Delayed</a> | <a href="/404">404 Test</a></p>
+    <p><a href="/json">JSON API</a> | <a href="/stream">Streaming</a> | <a href="/delay">Delayed</a> | <a href="/404">404 Test</a> | <a href="/app-login">App Login</a> | <a href="/app-register">App Register</a></p>
 </body>
 </html>
 `;
@@ -67,6 +67,38 @@ Bun.serve({
                         }));
                     }, 2000);
                 });
+            case '/app-login':
+                return new Response(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head><title>App Login</title></head>
+                    <body>
+                        <h1>App Login</h1>
+                        <form method="POST" action="/app-login">
+                            <label>Email: <input type="email" name="email" required></label><br>
+                            <label>Password: <input type="password" name="password" required></label><br>
+                            <button type="submit">Login to App</button>
+                        </form>
+                        <p>This is the app's login page (proxied through tunnel).</p>
+                    </body>
+                    </html>
+                `, { headers: { 'Content-Type': 'text/html' } });
+            case '/app-register':
+                return new Response(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head><title>App Register</title></head>
+                    <body>
+                        <h1>App Register</h1>
+                        <form method="POST" action="/app-register">
+                            <label>Email: <input type="email" name="email" required></label><br>
+                            <label>Password: <input type="password" name="password" required></label><br>
+                            <button type="submit">Register for App</button>
+                        </form>
+                        <p>This is the app's register page (proxied through tunnel).</p>
+                    </body>
+                    </html>
+                `, { headers: { 'Content-Type': 'text/html' } });
             case '/404':
                 return new Response('Not Found', { status: 404 });
             default:

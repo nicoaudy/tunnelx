@@ -7,6 +7,9 @@
     "server": "bun run server/index.ts",
     "client": "bun run client/index.ts",
     "tunnel": "bun run bin/tunnel.ts",
+    "login": "bun run bin/tunnel.ts login",
+    "register": "bun run bin/tunnel.ts register",
+    "logout": "bun run bin/tunnel.ts logout",
     "test-server": "bun run tests/test-server.ts"
   },
   "bin": {

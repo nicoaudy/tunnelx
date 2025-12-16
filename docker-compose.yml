@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  tunnel-server:
+    build: .
+    ports:
+      - "443:443"
+    volumes:
+      - ./certs:/certs:ro
+    restart: unless-stopped

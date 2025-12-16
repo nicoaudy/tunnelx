@@ -1,0 +1,18 @@
+{
+  "name": "tunnel-proxy",
+  "version": "1.0.0",
+  "description": "Ngrok-like tunnel proxy app in plain Bun",
+  "main": "index.ts",
+  "scripts": {
+    "server": "bun run server/index.ts",
+    "client": "bun run client/index.ts",
+    "tunnel": "bun run bin/tunnel.ts",
+    "test-server": "bun run tests/test-server.ts"
+  },
+  "bin": {
+    "tunnel": "./bin/tunnel.ts"
+  },
+  "keywords": ["tunnel", "proxy", "ngrok", "bun"],
+  "author": "",
+  "license": "MIT"
+}

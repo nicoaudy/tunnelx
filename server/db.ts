@@ -1,7 +1,7 @@
 import { Database } from 'bun:sqlite';
 import { User, AuthCode, Session } from '../shared/types.ts';
 
-export const db = new Database('data/tunnel.db');
+export const db = new Database('/data/tunnel.db');
 db.run(`CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT UNIQUE,

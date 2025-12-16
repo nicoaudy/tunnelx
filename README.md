@@ -23,11 +23,12 @@ bun run logout    # Logout
 
 ## Setup
 1. Clone repo on VPS.
-2. Copy `.env.example` to `.env` and configure (DOMAIN defaults to tunnel.yourdomain.com).
-3. Run `./setup-production.sh` to generate TLS certs.
-4. Run `docker-compose up -d` to deploy server.
-5. Publish package to npm for `bunx tunnel <port>`.
-6. Users: Run `bunx tunnel login` to authenticate, then `bunx tunnel <port>` (no env setup needed).
+2. Set up Nginx Proxy Manager on port 443 forwarding to internal port (e.g., 1001).
+3. Copy `.env.example` to `.env`: set DOMAIN=tunnel.yourdomain.com, SERVER_PORT=1001, EXTERNAL_PORT=443, USE_TLS=false.
+4. Skip `./setup-production.sh` (proxy handles TLS).
+5. Run `docker-compose up -d` to deploy server on internal port.
+6. Publish package to npm for `bunx tunnel <port>`.
+7. Users: Run `bunx tunnel login` to authenticate, then `bunx tunnel <port>` (connects to your domain).
 
 ## Authentication
 - Run `bun run register` to create a new account (uses /tunnel-register paths).
@@ -37,7 +38,8 @@ bun run logout    # Logout
 
 ## TLS Certificates
 - **Testing**: Run `./generate-certs.sh` for self-signed certs.
-- **Production**: Run `./setup-production.sh` to generate wildcard certs with Certbot.
+- **Production Direct**: Run `./setup-production.sh` for wildcard certs (set USE_TLS=true).
+- **Behind Proxy**: Skip cert setup (proxy handles TLS, set USE_TLS=false).
 
 ## Testing
 - **Local**: Copy `.env.local` to `.env`, run server: `bun run server/index.ts`, client: `bun run tunnel 3001`. Run test server: `bun run test-server`. Access http://localhost:8080.

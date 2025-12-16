@@ -10,7 +10,9 @@ export async function handleAuth(req: Request): Promise<Response | null> {
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
     createAuthCode(code, expiresAt);
     const port = config.isLocal ? 8080 : config.serverPort;
-      const authUrl = `${protocol}://${config.domain}:${port}/tunnel-auth?code=${code}`;
+      const defaultPort = protocol === 'https' ? 443 : 80;
+    const portStr = config.externalPort !== defaultPort ? `:${config.externalPort}` : '';
+    const authUrl = `${protocol}://${config.domain}${portStr}/tunnel-auth?code=${code}`;
     return new Response(JSON.stringify({ code, auth_url: authUrl }), {
       headers: { 'Content-Type': 'application/json' },
     });

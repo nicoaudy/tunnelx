@@ -48,7 +48,7 @@ const serveOptions: any = {
   port: config.isLocal ? 8080 : config.serverPort,
 };
 
-if (!config.isLocal) {
+if (config.useTls) {
   serveOptions.tls = {
     cert: Bun.file('/certs/cert.pem'),
     key: Bun.file('/certs/key.pem'),
